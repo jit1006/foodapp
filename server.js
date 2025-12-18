@@ -6,10 +6,11 @@ const app = express();
 
 // named import
 import { db } from './db.js';
+
+// require('dotenv').config();
 import { configDotenv } from 'dotenv';
 configDotenv();
 
-// require('dotenv').config();
 
 
 // -----
