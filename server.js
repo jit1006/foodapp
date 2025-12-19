@@ -11,7 +11,35 @@ import { db } from './db.js';
 import { configDotenv } from 'dotenv';
 configDotenv();
 
+// ....implementing passport...
+import passport, { Passport } from 'passport';
 
+// ....local strategy .ie username and passport way we will use..
+import LocalStrategy from 'passport-local';
+
+// we have to initialize also;
+app.use(passport.initialize());
+// app.use(passport.session());
+
+passport.use(new LocalStrategy(async (USERNAME, password, done) => {
+    // authentication logic
+    try {
+        console.log(`Received credentials:`, USERNAME, password);
+        const user = await Person.findOne({ username: USERNAME });
+        if (!user) {
+            return done(null, false, { message: "user not found" });
+        }
+        const ispassword = user.password === password ? true : false;
+        if (ispassword) {
+            return done(null, user);
+        }
+        else {
+            return done(null, false, { message: "incorrect password" });
+        }
+    } catch (err) {
+        return done(err);
+    }
+}));
 
 // -----
 // app.use(express.json());  // object name ->  req.body
@@ -48,7 +76,14 @@ app.use(logRequest);
 // env port configuration
 const PORT = process.env.PORT || 3300;
 
-app.get('/', (req, res) => {
+// app.get('/', (req, res) => {
+//     res.send(`Jay shree Ram... `)
+
+// })
+
+// ...TO home route implementing login
+
+app.get('/', passport.authenticate('local', { session: false }), (req, res) => {
     res.send(`Jay shree Ram... `)
 
 })
@@ -99,6 +134,7 @@ import personRoutes from './routes/personRoutes.js';
 app.use("/person", personRoutes);
 
 import menuRoutes from './routes/menuRoutes.js';
+import Person from './models/person.js';
 app.use('/menuitem', menuRoutes);
 
 
