@@ -1,7 +1,5 @@
 import express, { response } from 'express';
 
-
-
 const router = express.Router();  // jis variable ser router ko import karoge usi ko export karoge
 
 import Person from './../models/person.js';
