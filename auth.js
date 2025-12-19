@@ -12,12 +12,13 @@ import LocalStrategy from 'passport-local';
 passport.use(new LocalStrategy(async (USERNAME, password, done) => {
     // authentication logic
     try {
-        console.log(`Received credentials:`, USERNAME, password);
+        // console.log(`Received credentials:`, USERNAME, password);
         const user = await Person.findOne({ username: USERNAME });
         if (!user) {
             return done(null, false, { message: "user not found" });
         }
-        const ispassword = user.password === password ? true : false;
+
+        const ispassword = await user.comparePassword(password); //comparePassword is a method defiend below
         if (ispassword) {
             return done(null, user);
         }
@@ -28,6 +29,5 @@ passport.use(new LocalStrategy(async (USERNAME, password, done) => {
         return done(err);
     }
 }));
-
 
 export default passport;

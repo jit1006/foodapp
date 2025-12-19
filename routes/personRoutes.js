@@ -75,7 +75,6 @@ router.put('/:id', async (req, res) => {
 
 
 // Delete Person By Id.....
-
 router.delete('/:id', async (req, res) => {
     try {
         const PersonId = req.params.id;
