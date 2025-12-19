@@ -19,13 +19,31 @@ configDotenv();
 // ------older method
 
 
-
 // middleware body-parser (use built-in express.json)
 app.use(express.json());  // object name ->  req.body
 
 
+
 // import Person from './models/person.js';
 import Menuitem from './models/menuitem.js';
+
+
+
+// middleware function for logging
+const logRequest = (req, res, next) => {
+    console.log(`[${new Date().toLocaleString()}] Request made to:${req.originalUrl}`);
+    next();
+};
+
+// apply middleware in express for all routes
+app.use(logRequest);
+// ---to specific routes only.
+// app.get('/', logRequest, (req, res) => {
+//     res.send(`Jay shree Ram... `)
+
+// })
+
+
 
 // env port configuration
 const PORT = process.env.PORT || 3300;
@@ -34,6 +52,7 @@ app.get('/', (req, res) => {
     res.send(`Jay shree Ram... `)
 
 })
+
 
 
 // app.post('/person',(req, res) => {
