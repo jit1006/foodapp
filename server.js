@@ -34,7 +34,7 @@ const localAuthMiddleare = passport.authenticate('local', { session: false });
 // ...TO home route implementing login
 // importing endpoints from router folder with the help of express Router
 import personRoutes from './routes/personRoutes.js';
-app.use("/person", localAuthMiddleare, personRoutes);
+app.use("/person", personRoutes);
 // ....passport..end..
 
 import menuRoutes from './routes/menuRoutes.js';
